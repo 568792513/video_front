@@ -1,6 +1,6 @@
 import Vue from 'vue'
+import Main from '@/components/Main'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
 import Home from '@/components/Home'
 import Login from '@/components/Login'
 import InfoCenter from '@/components/InfoCenter'
@@ -11,39 +11,50 @@ import UploadVideo from '@/components/uploadVideo'
 Vue.use(Router)
 
 export default new Router({
-  mode: "history",
+  mode: 'history',
   routes: [
-    {
-      path: '/',
-      name: 'HelloWorld',
-      component: HelloWorld
-    },
-    {
-      path: '/home',
-      name: 'home',
-      component: Home
-    },
     {
       path: '/login',
       name: 'login',
       component: Login
     },
     {
-      path: '/infoCenter',
-      name: 'infoCenter',
-      component: InfoCenter,
+      path: '/',
+      name: 'main',
+      component: Main,
       children: [
         {
-          path: 'myInfo',
-          component: MyInfo
+          path: '/',
+          name: 'home',
+          component: Home
         },
         {
-          path: 'myVideo',
-          component: MyVideo
+          path: '/home',
+          name: 'home',
+          component: Home
         },
         {
-          path: 'uploadVideo',
-          component: UploadVideo
+          path: '/infoCenter',
+          name: 'infoCenter',
+          component: InfoCenter,
+          children: [
+            {
+              path: '/',
+              component: MyInfo
+            },
+            {
+              path: 'myInfo',
+              component: MyInfo
+            },
+            {
+              path: 'myVideo',
+              component: MyVideo
+            },
+            {
+              path: 'uploadVideo',
+              component: UploadVideo
+            }
+          ]
         }
       ]
     }

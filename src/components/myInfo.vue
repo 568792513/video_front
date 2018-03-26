@@ -37,10 +37,13 @@
             <el-button>取消</el-button>
           </el-form-item>
         </el-form>
+    <el-button @click="onSubmit">get user</el-button>
   </div>
 </template>
 <script>
+  import base from '../mixins/base';
   export default {
+    mixins:[base],
     name: 'myInfo',
     data () {
       return {
@@ -54,6 +57,27 @@
           resource: '',
           desc: ''
         }
+      }
+    },
+    methods: {
+      onSubmit() {
+        let sel = this;
+        sel.request({act: 'getUsers', method: 'get', body: null}).then(datas => {
+          if (datas.code === 0) {
+            let data = datas.data;
+            console.log(data);
+//            set.setSessionStorage({key: 'userInfo', data: data.})
+            if (sel.$route.query.back) {
+              sel.$router.push(sel.$route.query.back);
+              return;
+            }
+            sel.$router.push('/home');
+          } else {
+            sel.$message.error('登陆失败:' + datas.userMsg);
+          }
+        }, response => {
+          sel.$meesage.error('登陆失败...');
+        });
       }
     }
   }
