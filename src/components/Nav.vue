@@ -1,17 +1,17 @@
 <template>
-  <div id="main">
+  <div id="nav">
     <div class="head-img"></div>
     <el-container>
       <el-header>
         <el-menu
-          :default-active="activeIndex"
+          :default-active="$route.path"
           class="el-menu-demo"
           mode="horizontal"
           @select="handleSelect"
           background-color="#409EFF"
           text-color="#fff"
           active-text-color="#ffd04b"
-          router="true">
+          router>
           <el-menu-item index="/home">
             <img style="width: 40px; height: 40px" src="assets/logo.png"/>
           </el-menu-item>
@@ -24,12 +24,14 @@
             <el-menu-item index="2-4">科技</el-menu-item>
             <el-menu-item index="2-5">影视</el-menu-item>
           </el-submenu>
-          <el-menu-item index="/infoCenter" >个人中心</el-menu-item>
+          <el-menu-item index="/infoCenter" ><a v-on:click="infoCenter">个人中心</a></el-menu-item>
           <!--<el-menu-item index="4">搜索</el-menu-item>-->
-          <div class="login-button-span">
+          <div class="login-button-span" v-show="loginButton">
             <router-link to="/login"><el-button type="primary" round size="medium">登录</el-button></router-link>
           </div>
-          <router-link></router-link>
+          <div class="login-button-span" v-show="!loginButton">
+            <router-link to="/login"><el-button type="primary" round size="medium" v-on:click="logout">退出</el-button></router-link>
+          </div>
         </el-menu>
       </el-header>
       <el-main>
@@ -42,10 +44,19 @@
 
 <script>
   import Home from './Home.vue'
+  import base from '../mixins/base';
+
   export default {
     name: 'main',
+    mixins: [base],
+    mounted (){
+      if (this.getSessionStorage({key: 'id'}) != null){
+        this.loginButton = false;
+      }
+    },
     data() {
       return {
+        loginButton: true
       };
     },
     methods: {
@@ -54,6 +65,24 @@
       },
       toLogin() {
         this.$router.push('/login')
+      },
+      infoCenter() {
+        let sel = this;
+        sel.request({act: 'isLogin', method: 'get'}).then(datas =>{
+          if (datas.code == 0){
+            sel.$router.push('/infoCenter')
+          } else {
+            sel.$message({message: '请先登录', type: 'success'});
+            sel.$router.push('/login');
+          }
+        }, response => {
+          sel.$meesage.error('内部错误');
+        })
+      },
+      logout() {
+        let sel = this;
+        sessionStorage.clear();
+        sel.$router.push('/home')
       }
     },
     components: {
@@ -63,7 +92,7 @@
 
 </script>
 
-<style>
+<style scoped="">
   .head-img{
     background: url("../assets/head_img.jpg");
     height: 180px;

@@ -1,12 +1,14 @@
 import Vue from 'vue'
-import Main from '@/components/Main'
+import Main from '@/components/Nav'
 import Router from 'vue-router'
 import Home from '@/components/Home'
 import Login from '@/components/Login'
 import InfoCenter from '@/components/InfoCenter'
-import MyInfo from '@/components/myInfo'
-import MyVideo from '@/components/myVideo'
-import UploadVideo from '@/components/uploadVideo'
+import MyInfo from '@/components/MyInfo'
+import MyVideo from '@/components/MyVideo'
+import UploadVideo from '@/components/UploadVideo'
+import EditMyInfo from '@/components/EditMyInfo'
+import EditPassword from '@/components/EditPassword'
 
 Vue.use(Router)
 
@@ -47,12 +49,20 @@ export default new Router({
               component: MyInfo
             },
             {
+              path: 'editMyInfo',
+              component: EditMyInfo
+            },
+            {
               path: 'myVideo',
               component: MyVideo
             },
             {
               path: 'uploadVideo',
               component: UploadVideo
+            },
+            {
+              path: 'editPassword',
+              component: EditPassword
             }
           ]
         }

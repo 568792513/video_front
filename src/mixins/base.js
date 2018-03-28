@@ -25,11 +25,12 @@ export default {
                 });
             }
             // const authorization=sessionStorage.getItem('authorization');
+            const uid = sessionStorage.getItem('id');
             const defaultOption={
                 method:'get',
                 url:'',
                 body:{},
-                // headers: {"Authorization": authorization},
+                headers: {"Authorization": uid},
                 timeout:20000,
                 emulateJSON: true
             };

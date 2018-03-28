@@ -1,28 +1,38 @@
 <template>
-  <div>
-    <div class="login-wrap" v-show="showLogin">
-      <h3>登录</h3>
-      <p v-show="showTip">{{tip}}</p>
-      <input type="text" placeholder="请输入用户名" v-model="name">
-      <input type="password" placeholder="请输入密码" v-model="password">
-      <button v-on:click="login">登录</button>
-      <span v-on:click="toRegister">没有账号？马上注册</span>
-    </div>
+  <div class="login-page">
+    <div class="login-box">
 
-    <div class="register-wrap" v-show="showRegister">
-      <h3>注册</h3>
-      <p v-show="showTip">{{tip}}</p>
-      <input type="text" placeholder="请输入用户名" v-model="newUsername">
-      <input type="password" placeholder="请输入密码" v-model="newPassword">
-      <input type="password" placeholder="确认密码" v-model="confirmPassword">
-      <button v-on:click="register">注册</button>
-      <span v-on:click="toLogin">已有账号？马上登录</span>
+      <div class="login-wrap" v-show="showLogin">
+        <h3>登 录</h3>
+        <p v-show="showTip">{{tip}}</p>
+        <input type="text" placeholder="请输入用户名" v-model="name">
+        <input type="password" placeholder="请输入密码" v-model="password">
+        <button v-on:click="login">登录</button>
+        <p></p>
+        <span v-on:click="toRegister">没有账号？马上注册</span>
+      </div>
+
+      <div class="register-wrap" v-show="showRegister">
+        <h3>注 册</h3>
+        <p v-show="showTip">{{tip}}</p>
+        <input type="text" placeholder="请输入用户名" v-model="newUsername">
+        <input type="password" placeholder="请输入密码" v-model="newPassword">
+        <input type="password" placeholder="确认密码" v-model="confirmPassword">
+        <button v-on:click="register">注册</button>
+        <p></p>
+        <span v-on:click="toLogin">已有账号？马上登录</span>
+      </div>
+
+      <div class="return-home">
+        <router-link to="/home">返回主页</router-link>
+      </div>
+
     </div>
   </div>
 </template>
 
 <script>
-  import {setCookie,getCookie} from '../common/cookie'
+  import {setCookie, getCookie} from '../common/cookie'
   import base from '../mixins/base';
 
   export default {
@@ -55,6 +65,12 @@
         }
         sel.request({act: 'login', method: 'post', body: params}).then(datas => {
           if (datas.code == 0) {
+            let name={name:datas.data.name}
+            sel.setSessionStorage({key: 'name', data: datas.data.name});
+            sel.setSessionStorage({key: 'id', data: datas.data.id});
+            sel.setSessionStorage({key: 'head_img', data: datas.data.headImg});
+//            this.$store.commit('changeLogin', '100');
+            //登录后改变登录状态 isLogin = 100 ；
             sel.$message({message: datas.msg, type: 'success'});
 //            if (sel.$route.query.back) {
 //              sel.$router.push(sel.$route.query.back);
@@ -115,13 +131,13 @@
           if (datas.code == 0) {
             sel.$message({message: datas.userMsg, type: 'success'});
             sel.$Router.push('/login');
-          } else if ( datas.code == 2000) {
+          } else if (datas.code == 2000) {
             sel.$message.error(datas.userMsg);
           } else {
             sel.$message.error(datas.userMsg);
           }
         }, response => {
-          sel.$meesage.error('登陆失败...');
+          sel.$meesage.error('注册失败...');
         });
 
 
@@ -147,11 +163,11 @@
 //          })
 //        }
       },
-      toRegister(){
+      toRegister() {
         this.showRegister = true;
         this.showLogin = false;
       },
-      toLogin(){
+      toLogin() {
         this.showRegister = false;
         this.showLogin = true;
       }
@@ -160,44 +176,66 @@
   }
 </script>
 
-<style>
-  .login-wrap{
-    text-align:center;
+<style scoped="">
+  .login-page {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    padding-top: 150px;
+    background: url(../assets/login_background.jpg) no-repeat center;
+    background-size: cover;
   }
-  .register-wrap{
-    text-align:center;
+  .login-box {
+    width: 300px;
+    height: 390px;
+    margin: 0 auto;
+    padding: 47px 29px 0;
+    background-color: #fff;
+    border: 1px solid #41b883;
+    box-shadow: 0 0 20px rgba(0,0,0, .5);
   }
-  input{
-    display:block;
-    width:250px;
-    height:40px;
-    line-height:40px;
-    margin:0 auto;
-    margin-bottom: 10px;
-    outline:none;
-    border:1px solid #888;
-    padding:10px;
-    box-sizing:border-box;
+  .login-wrap {
+    text-align: center;
   }
-  p{
-    color:red;
+  .register-wrap {
+    text-align: center;
   }
-  button{
-    display:block;
-    width:250px;
-    height:40px;
+  .return-home {
+    margin-top: 30px;
+    text-align: center;
+  }
+  input {
+    display: block;
+    width: 250px;
+    height: 40px;
     line-height: 40px;
-    margin:0 auto;
-    border:none;
-    background-color:#41b883;
-    color:#fff;
-    font-size:16px;
-    margin-bottom:5px;
+    margin: 0 auto;
+    margin-bottom: 10px;
+    outline: none;
+    border: 1px solid #888;
+    padding: 10px;
+    box-sizing: border-box;
   }
-  span{
-    cursor:pointer;
+
+  button {
+    display: block;
+    width: 250px;
+    height: 40px;
+    line-height: 40px;
+    margin: 0 auto;
+    border: none;
+    background-color: #41b883;
+    color: #fff;
+    font-size: 16px;
+    margin-bottom: 5px;
   }
-  span:hover{
-    color:#41b883;
+
+  span {
+    cursor: pointer;
+  }
+
+  span:hover {
+    color: #41b883;
   }
 </style>

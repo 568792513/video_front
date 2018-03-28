@@ -1,7 +1,7 @@
 <template>
   <div class="infoCenter">
     <el-container>
-      <InfoCenterSide></InfoCenterSide>
+      <InfoCenterSide :user="user_data"></InfoCenterSide>
       <div class="main">
         <infoCenterMain>
         </infoCenterMain>
@@ -12,12 +12,26 @@
 <script>
   import InfoCenterSide from './InfoCenterSide.vue'
   import InfoCenterMain from './InfoCenterMain.vue'
-export default {
+  import base from '../mixins/base';
+  export default {
   name: 'infoCenter',
+  mixins: [base],
   data () {
     return {
-
+      user_data: {
+        id: '',
+        name: '',
+        headImg: ''
+      }
     }
+  },
+  mounted (){
+    let username = this.getSessionStorage({key: 'name'});
+    let userId = this.getSessionStorage({key: 'id'});
+    let userHeadImg = this.getSessionStorage({key: 'head_img'});
+    this.user_data.name = username;
+    this.user_data.id = userId;
+    this.user_data.headImg = userHeadImg
   },
   components: {
     InfoCenterSide,
@@ -28,7 +42,7 @@ export default {
 
 <style scoped="">
   .el-aside {
-    background-color: #D3DCE6;
+    background-color: #E9EEF3;
     color: #333;
     text-align: center;
     line-height: 200px;

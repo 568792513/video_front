@@ -6,10 +6,28 @@ import router from './router/router'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import VueResource from 'vue-resource'
+// import Vuex from 'vuex'
 
-Vue.config.productionTip = false
-Vue.use(ElementUI)
-Vue.use(VueResource)
+Vue.config.productionTip = false;
+Vue.use(ElementUI);
+Vue.use(VueResource);
+// Vue.use(Vuex);
+
+// var state = {
+//   isLogin:0,     //初始时候给一个 isLogin=0 表示用户未登录
+// };
+
+// const mutations = {
+//   changeLogin(state,data){
+//     state.isLogin = data;
+//   }
+// };
+
+Vue.http.interceptors.push(function(request, next) {//拦截器
+// 跨域携带cookie
+  request.credentials = true;
+  next()
+})
 
 /* eslint-disable no-new */
 new Vue({
