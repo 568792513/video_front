@@ -1,82 +1,106 @@
 <template>
   <div class="editMyInfo">
-    <div class="form-box">
-      <el-form :model="ruleForm2" status-icon :rules="rules2" ref="ruleForm2" label-width="100px" class="demo-ruleForm">
-        <el-form-item label="密码" prop="pass">
-          <el-input type="password" v-model="ruleForm2.pass" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="确认密码" prop="checkPass">
-          <el-input type="password" v-model="ruleForm2.checkPass" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="年龄" prop="age">
-          <el-input v-model.number="ruleForm2.age"></el-input>
-        </el-form-item>
-        <el-form-item>
-          <el-button type="primary" @click="submitForm('ruleForm2')">提交</el-button>
-          <el-button @click="resetForm('ruleForm2')">重置</el-button>
-        </el-form-item>
-      </el-form>
-    </div>
+    <el-tabs v-model="activeName2" type="border-card" @tab-click="handleClick">
+      <el-tab-pane label="头像修改" name="first">
+        <el-upload
+          drag
+          class="avatar-uploader"
+          action=""
+          :show-file-list="true"
+          :before-upload="beforeAvatarUpload"
+          :http-request="handleFileUpload">
+          <img v-if="imageUrl" :src="imageUrl" class="avatar">
+          <i v-else class="el-icon-plus
+           avatar-uploader-icon"></i>
+        </el-upload>
+      </el-tab-pane>
+      <el-tab-pane label="配置管理" name="second">配置管理</el-tab-pane>
+    </el-tabs>
+
   </div>
 </template>
 
 <script>
+  import '../../static/plugin/lrz.js';
+  import base from '../mixins/base';
   export default {
+    mixins:[base],
     data() {
-      var validatePass = (rule, value, callback) => {
-        if (value === '') {
-          callback(new Error('请输入密码'));
-        } else {
-          if (this.ruleForm2.checkPass !== '') {
-            this.$refs.ruleForm2.validateField('checkPass');
-          }
-          callback();
-        }
-      };
-      var validatePass2 = (rule, value, callback) => {
-        if (value === '') {
-          callback(new Error('请再次输入密码'));
-        } else if (value !== this.ruleForm2.pass) {
-          callback(new Error('两次输入密码不一致!'));
-        } else {
-          callback();
-        }
-      };
       return {
-        ruleForm2: {
-          pass: '',
-          checkPass: '',
-        },
-        rules2: {
-          pass: [
-            { validator: validatePass, trigger: 'blur' }
-          ],
-          checkPass: [
-            { validator: validatePass2, trigger: 'blur' }
-          ]
-        }
+        updateEnable: false,
+        imageUrl: '',
+        activeName2: 'first',
+        file:{}
       };
     },
     methods: {
-      submitForm(formName) {
-        this.$refs[formName].validate((valid) => {
-          if (valid) {
-            alert('submit!');
-          } else {
-            console.log('error submit!!');
-            return false;
-          }
-        });
+//      handleAvatarSuccess(res, file) {
+//        this.imageUrl = URL.createObjectURL(file.raw);
+//      },
+      beforeAvatarUpload(file) {
+        let sel = this;
+        this.file = file
+        const isJPG = file.type === 'image/jpeg';
+        const isLt2M = file.size / 1024 / 1024 < 2;
+
+        if (!isJPG) {
+          this.$message.error('上传头像图片只能是 JPG 格式!');
+        }
+        if (!isLt2M) {
+          this.$message.error('上传头像图片大小不能超过 2MB!');
+        }
+        return isJPG && isLt2M;
       },
-      resetForm(formName) {
-        this.$refs[formName].resetFields();
+      handleClick(tab, event) {
+        console.log(tab, event);
+      },
+      handleFileUpload() {
+        const sel = this;
+        const file = sel.file;
+        lrz(file, {width: 1000}).then(img => {
+          let form = new FormData();
+          form.append('file', img.file);
+          form.append('imgSrc', img.input);
+          console.log(img.input);
+          sel.request({act: 'uploadHeadImg', method: 'post', body: form}).then(datas => {
+            if (datas.code == 0){
+              this.$alter(res.userMsg, '提示', {
+                confirmButtonText: '确定'
+              });
+            } else {
+              this.$message.error(res.userMsg+',code:'+res.code);
+            }
+          }, err => {
+            this.$message.error('上传文件失败...');
+          })
+        })
       }
     }
   }
 </script>
 
 <style scoped="">
-  .form-box {
-    width: 200px;
+  .avatar-uploader .el-upload {
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .avatar-uploader .el-upload:hover {
+    border-color: #409EFF;
+  }
+  .avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 178px;
+    height: 178px;
+    line-height: 178px;
+    text-align: center;
+  }
+  .avatar {
+    width: 178px;
+    height: 178px;
+    display: block;
   }
 </style>

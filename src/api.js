@@ -18,7 +18,10 @@ const api=[
   {act:'editPassword', url:'/api/web/user/editPassword'},
 
   // 注销
-  {act:'logout', url:'/api/web/user/logout'}
+  {act:'logout', url:'/api/web/user/logout'},
+
+  // 上传图片
+  {act:'uploadHeadImg', url:'/api/web/user/uploadHeadImg'}
 
 
 ];
