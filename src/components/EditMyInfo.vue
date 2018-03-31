@@ -13,6 +13,9 @@
           <i v-else class="el-icon-plus
            avatar-uploader-icon"></i>
         </el-upload>
+        <p>* 请点击上方区域为选择一张图片作为头像</p>
+        <p>* 上传头像图片只能是 JPG 格式!</p>
+        <p>* 上传头像图片大小不能超过 2MB!</p>
       </el-tab-pane>
       <el-tab-pane label="配置管理" name="second">配置管理</el-tab-pane>
     </el-tabs>
@@ -24,7 +27,7 @@
   import '../../static/plugin/lrz.js';
   import base from '../mixins/base';
   export default {
-    mixins:[base],
+    mixins: [base],
     data() {
       return {
         updateEnable: false,
@@ -38,8 +41,9 @@
 //        this.imageUrl = URL.createObjectURL(file.raw);
 //      },
       beforeAvatarUpload(file) {
+        console.log(file);
         let sel = this;
-        this.file = file
+        this.file = file;
         const isJPG = file.type === 'image/jpeg';
         const isLt2M = file.size / 1024 / 1024 < 2;
 
@@ -51,29 +55,38 @@
         }
         return isJPG && isLt2M;
       },
-      handleClick(tab, event) {
-        console.log(tab, event);
-      },
+//      handleClick(tab, event) {
+//        console.log(tab, event);
+//      },
       handleFileUpload() {
-        const sel = this;
-        const file = sel.file;
-        lrz(file, {width: 1000}).then(img => {
-          let form = new FormData();
-          form.append('file', img.file);
-          form.append('imgSrc', img.input);
-          console.log(img.input);
-          sel.request({act: 'uploadHeadImg', method: 'post', body: form}).then(datas => {
-            if (datas.code == 0){
-              this.$alter(res.userMsg, '提示', {
-                confirmButtonText: '确定'
-              });
-            } else {
-              this.$message.error(res.userMsg+',code:'+res.code);
-            }
-          }, err => {
-            this.$message.error('上传文件失败...');
+        this.$confirm('此操作将修改您的头像, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          const sel = this;
+          const file = sel.file;
+          lrz(file, {width: 1000, quality: 0.3}).then(img => {
+            let form = new FormData();
+            form.append('file', img.file);
+            form.append('imgSrc', img.input);
+            sel.request({act: 'uploadHeadImg', method: 'post', body: form}).then(datas => {
+              if (datas.code == 0){
+                sel.setSessionStorage({key: 'head_img', data: datas.data});
+                sel.$message({message: datas.msg, type: 'success'});
+              } else {
+                this.$message.error(datas.msg+',code:'+datas.code);
+              }
+            }, err => {
+              this.$message.error('上传文件失败...');
+            })
           })
-        })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消'
+          });
+        });
       }
     }
   }
@@ -102,5 +115,8 @@
     width: 178px;
     height: 178px;
     display: block;
+  }
+  p {
+    line-height: 20px;
   }
 </style>

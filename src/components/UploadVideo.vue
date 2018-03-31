@@ -1,4 +1,6 @@
 <template>
+  <!--// 解决一个表单多个文件上传 https://www.cnblogs.com/liuruolin/p/element-ui.html-->
+
   <div class="uploadVideo">
     <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="upload-video-form">
       <el-form-item label="视频名称" prop="name">
@@ -22,13 +24,13 @@
           drag
           class="video-img"
           :file-list="ruleForm.videoImgList"
-          action=""
+          ref="uploadImg"
+          action="uploadUrl"
           :show-file-list="true"
           :auto-upload="false"
           :limit="1"
           :on-exceed="overLimit"
-          :before-upload="beforeVideoImgUpload"
-          :http-request="handleVideoUpload">
+          :before-upload="beforeVideoImgUpload">
           <i class="el-icon-plus"></i>
           <i class="avatar-uploader-icon"></i>
           <div class="el-upload__tip">* 请点击此区域为选择一张图片作为视频封面</div>
@@ -41,14 +43,14 @@
         <el-upload
           class="upload-video"
           drag
-          action=""
+          action="uploadUrl"
+          ref="uploadVideo"
           :file-list="ruleForm.videoFileList"
           :show-file-list="true"
           :auto-upload="false"
           :limit="1"
           :on-exceed="overLimit"
-          :before-upload="beforeVideoUpload"
-          :http-request="handleVideoUpload">
+          :before-upload="beforeVideoUpload">
           <i class="el-icon-upload"></i>
           <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
           <div class="el-upload__tip" >只能上传视频文件，且不超过200MB！</div>
@@ -67,8 +69,10 @@
     mixins: [base],
     data() {
       return {
+        uploadUrl: "aaa",
         imgFile: {},
         videoFile: {},
+        uploadForm: new FormData(),
         ruleForm: {
           name: '',
           type: '',
@@ -101,7 +105,22 @@
         let sel = this;
         sel.$refs[formName].validate((valid) => {
           if (valid) {
-            sel.handleVideoUpload()
+            let sel = this;
+            this.uploadForm.append('name', this.ruleForm.name);
+            this.uploadForm.append('type', this.ruleForm.type);
+            this.uploadForm.append('desc', this.ruleForm.desc);
+            this.$refs.uploadImg.submit() ;  // 提交时触发了before-upload函数
+            this.$refs.uploadVideo.submit()   // 提交时触发了before-upload函数
+            sel.request({act: 'addVideo', method: 'post', body: this.uploadForm}).then(datas => {
+              if (datas.code == 0){
+                sel.$message({message: datas.msg, type: 'success'});
+              } else {
+                this.$message.error(datas.msg+',code:'+datas.code);
+              }
+            }, err => {
+              this.$message.error('上传文件失败...');
+            });
+
           } else {
             return false;
           }
@@ -112,12 +131,15 @@
         sel.$message.error('上传数量为1');
       },
       beforeVideoImgUpload(file) {
+        console.log(file);
         let sel = this;
         this.imgFile = file;
         let isLt2M = file.size / 1024 / 1024 < 1;
         if (!isLt2M) {
           sel.$message.error('上传视频封面图片大小不能超过 1MB!');
+          return false;
         }
+        this.uploadForm.append('imgFile', file);
         return isLt2M;
       },
 //      handleVideoImgUpload() {
@@ -137,35 +159,50 @@
 //            })
 //      },
       beforeVideoUpload(file) {
+        console.log(file);
         let sel = this;
         this.videoFile = file;
         const sizeLimit = file.size / 1024 / 1024 <  300;
         if (!sizeLimit) {
           sel.$message.error('上传视频大小不能超过 300MB!')
+          return false;
         }
+        this.uploadForm.append('videoFile', file);
         return sizeLimit;
       },
       handleVideoUpload() {
-        let sel = this;
-        let videoFile = sel.ruleForm.videoFileList[0];
-        let imgFile = sel.ruleForm.videoImgList[0];
-        let form = new FormData();
+        this.$confirm('此操作将修改您的头像, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          let sel = this;
+          let videoFile = sel.ruleForm.videoFileList[0];
+          let imgFile = sel.ruleForm.videoImgList[0];
+          let form = new FormData();
 
-        form.append('imgFile', this.imgFile);
-        form.append('videoFile', videoFile);
-        form.append('name', sel.ruleForm.name);
-        form.append('type', sel.ruleForm.type);
-        form.append('introduction', sel.ruleForm.desc);
+          form.append('imgFile', this.imgFile);
+          form.append('videoFile', videoFile);
+          form.append('name', sel.ruleForm.name);
+          form.append('type', sel.ruleForm.type);
+          form.append('introduction', sel.ruleForm.desc);
 //            form.append('imgSrc', img.input);
-        sel.request({act: 'addVideo', method: 'post', body: form}).then(datas => {
-          if (datas.code == 0){
-            sel.$message({message: datas.msg, type: 'success'});
-          } else {
-            this.$message.error(datas.msg+',code:'+datas.code);
-          }
-        }, err => {
-          this.$message.error('上传文件失败...');
-        })
+          sel.request({act: 'addVideo', method: 'post', body: form}).then(datas => {
+            if (datas.code == 0){
+              sel.$message({message: datas.msg, type: 'success'});
+            } else {
+              this.$message.error(datas.msg+',code:'+datas.code);
+            }
+          }, err => {
+            this.$message.error('上传文件失败...');
+          })
+        }).catch(() => {
+    this.$message({
+      type: 'info',
+      message: '已取消'
+    });
+  });
+
       },
     }
   }

@@ -62,7 +62,7 @@
         let params = {
           name: sel.name,
           password: sel.password
-        }
+        };
         sel.request({act: 'login', method: 'post', body: params}).then(datas => {
           if (datas.code == 0) {
             let name={name:datas.data.name}

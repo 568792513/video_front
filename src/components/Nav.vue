@@ -13,7 +13,7 @@
           active-text-color="#ffd04b"
           router>
           <el-menu-item index="/home">
-            <img style="width: 40px; height: 40px" src="assets/logo.png"/>
+            <img style="width: 40px; height: 40px" src="../assets/play114.png"/>
           </el-menu-item>
           <el-menu-item index="/home">首页</el-menu-item>
           <el-submenu index="2">
@@ -34,6 +34,7 @@
           </div>
         </el-menu>
       </el-header>
+
       <el-main>
         <router-view></router-view>
       </el-main>
@@ -94,6 +95,7 @@
 
 <style scoped="">
   .head-img{
+    /*background: url("../assets/1/20180330140523.jpg");*/
     background: url("../assets/head_img.jpg");
     height: 180px;
   }
