@@ -24,8 +24,16 @@ const api=[
   {act:'uploadHeadImg', url:'/zuul/user-service/api/web/user/uploadHeadImg'},
 
   // 添加视频
-  {act:'addVideo', url:'/zuul/vedio-service/api/web/video/addVideo'}
+  {act:'addVideo', url:'/zuul/vedio-service/api/web/video/addVideo'},
 
+  // 我的视频页面获取我的视频
+  {act:'getMyVideo', url:'/zuul/vedio-service/api/web/video/getMyVideo'},
+
+  // 我的视频页面修改视频信息
+  {act:'editVideo', url:'/zuul/vedio-service/api/web/video/editVideo'},
+
+  // 删除视频
+  {act:'removeVideo', url:'/zuul/vedio-service/api/web/video/removeVideo'}
 
 ];
 export default api;

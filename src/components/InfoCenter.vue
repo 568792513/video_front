@@ -2,7 +2,7 @@
   <div class="infoCenter">
     <el-container>
       <InfoCenterSide :user="user_data"></InfoCenterSide>
-      <div class="main">
+      <div class="main-a">
         <infoCenterMain>
         </infoCenterMain>
       </div>
@@ -54,7 +54,7 @@
     text-align: center;
     line-height: 160px;
   }
-  .main{
+  .main-a{
     text-align: center;
   }
 </style>

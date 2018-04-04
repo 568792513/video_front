@@ -70,6 +70,47 @@ export default {
         getSessionStorage(opt){
             let str = sessionStorage.getItem(opt.key);
             return JSON.parse(str);
-        }
+        },
+        typeChange(val){
+          if (typeof(val) == 'number'){
+            switch (val){
+              case 0 :
+                return '新闻';
+                break;
+              case 1 :
+                return '音乐';
+                break;
+              case 2 :
+                return '生活';
+                break;
+              case 3 :
+                return '科技';
+                break;
+              case 4 :
+                return '影视';
+                break;
+            }
+          }
+          if (typeof(val) == 'string'){
+            switch (val){
+              case '新闻' :
+                return parseInt(0);
+                break;
+              case '音乐' :
+                return parseInt(1);
+                break;
+              case '生活' :
+                return parseInt(2);
+                break;
+              case '科技' :
+                return parseInt(3);
+                break;
+              case '影视' :
+                return parseInt(4);
+                break;
+            }
+          }
+
+}
 	}
 }

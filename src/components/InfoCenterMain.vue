@@ -22,10 +22,10 @@
     color: #333;
     margin-left: 50px;
     text-align: center;
-    line-height: 160px;
+    /*line-height: 160px;*/
     width: 1500px;
     padding: 50px;
     border:1px solid #409EFF;
-    border-radius:25px;
+    border-radius:10px;
   }
 </style>

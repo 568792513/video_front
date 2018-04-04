@@ -57,7 +57,10 @@
         </el-upload>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" v-on:click="submitForm('ruleForm')">立即发布</el-button>
+        <el-button type="primary" v-on:click="submitForm('ruleForm')" :loading="loading">立即发布</el-button>
+      </el-form-item>
+      <el-form-item>
+        <el-progress v-show="progressShow" :text-inside="true" :stroke-width="18" :percentage="schedule" status="status"></el-progress>
       </el-form-item>
     </el-form>
   </div>
@@ -97,12 +100,19 @@
           videoFileList: [
             { required: true, message: '请选择一个视频', trigger: 'change' }
           ]
-        }
+        },
+        schedule: 0,
+        progressShow: false,
+        status: '',
+        loading: false
       }
     },
     methods: {
       submitForm(formName) {
         let sel = this;
+        sel.loading = true;
+        sel.progressShow = true;
+        sel.schedule = 20;
         sel.$refs[formName].validate((valid) => {
           if (valid) {
             let sel = this;
@@ -111,17 +121,26 @@
             this.uploadForm.append('desc', this.ruleForm.desc);
             this.$refs.uploadImg.submit() ;  // 提交时触发了before-upload函数
             this.$refs.uploadVideo.submit()   // 提交时触发了before-upload函数
+            sel.schedule = 50;
             sel.request({act: 'addVideo', method: 'post', body: this.uploadForm}).then(datas => {
               if (datas.code == 0){
+                sel.loading = false;
+                sel.schedule = 100;
+                sel.status = 'success';
                 sel.$message({message: datas.msg, type: 'success'});
               } else {
+                sel.loading = false;
+                sel.progressShow = false;
                 this.$message.error(datas.msg+',code:'+datas.code);
               }
             }, err => {
+              sel.loading = false;
+              sel.progressShow = false;
               this.$message.error('上传文件失败...');
             });
-
           } else {
+            sel.loading = false;
+            sel.progressShow = false;
             return false;
           }
        });

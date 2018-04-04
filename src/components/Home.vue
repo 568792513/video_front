@@ -132,6 +132,8 @@
       <el-col :span="4"><div class="grid-content bg-purple">5</div></el-col>
       <el-col :span="4"><div class="grid-content bg-purple-light">6</div></el-col>
     </el-row>
+    <video src="http://120.79.143.237/video_file/video_977788977459245057_rank_1.mp4" controls="controls">
+    </video>
   </div>
 </template>
 

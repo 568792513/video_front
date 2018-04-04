@@ -7,20 +7,26 @@
           <p>{{user.name ? user.name : "昵称"}}</p>
           <p><router-link to="/infoCenter/myInfo"><el-button type="primary" class="el-icon-info"> 我的信息</el-button></router-link></p>
           <p><router-link to="/infoCenter/editMyInfo"><el-button type="primary" class="el-icon-edit"> 修改信息</el-button></router-link></p>
-          <p><router-link to="/infoCenter/myVideo"><el-button type="primary" class="el-icon-caret-right"> 我的视频</el-button></router-link></p>
+          <p><router-link to="/infoCenter/myVideo"><el-button type="primary" class="el-icon-caret-right" > 我的视频</el-button></router-link></p>
           <p><router-link to="/infoCenter/uploadVideo"><el-button type="primary" class="el-icon-upload"> 上传视频</el-button></router-link></p>
           <p><router-link to="/infoCenter/editPassword"><el-button type="primary" class="el-icon-setting"> 修改密码</el-button></router-link></p>
       </el-aside>
   </div>
 </template>
 <script>
+  import base from "../mixins/base"
   export default {
     name: 'infoCenterSide',
     props: ['user'],
+    mixins: [base],
     data () {
       return {
+
       }
     },
+    methods: {
+
+    }
 
   }
 </script>
