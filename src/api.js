@@ -33,7 +33,15 @@ const api=[
   {act:'editVideo', url:'/zuul/vedio-service/api/web/video/editVideo'},
 
   // 删除视频
-  {act:'removeVideo', url:'/zuul/vedio-service/api/web/video/removeVideo'}
+  {act:'removeVideo', url:'/zuul/vedio-service/api/web/video/removeVideo'},
 
+  // 通过id获取视频
+  {act:'getVideoById', url:'/zuul/vedio-service/api/web/video/getVideoById'},
+
+  // 获取首页数据
+  {act:'getHomePageVideo', url:'/zuul/vedio-service/api/web/video/getHomePageVideo'},
+
+  // 根据类型获取视频
+  {act:'getVideoByType', url:'/zuul/vedio-service/api/web/video/getVideoByType'}
 ];
 export default api;

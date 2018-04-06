@@ -1,166 +1,253 @@
 <template>
   <div class="home">
-    <el-row>
-      <el-col :span="24"><div class="grid-content bg-purple-dark">推荐</div></el-col>
-    </el-row>
+    <el-main v-loading="loading">
 
+    <!--<el-row>-->
+      <!--<el-col :span="24"><div class="grid-content bg-purple-dark">推荐</div></el-col>-->
+    <!--</el-row>-->
 
-    <div class="featured">
-      <div class="main-vid">
-        <div class="col-md-6">
-          <div class="zoom-container">
-            <div class="zoom-caption">
-              <span>Video's Tag</span>
-              <a href="single.html">
-                <i class="fa fa-play-circle-o fa-5x" style="color: #fff"></i>
-              </a>
-              <p>Video's Name</p>
+      <el-row>
+        <el-col :span="24"><div class="grid-content bg-purple-dark"> <img class="type" src="../assets/news.png"/> 新闻 <router-link to="/classify/0"><div class="more-wrapper"> <a class="more">查看更多>></a></div></router-link> </div></el-col>
+      </el-row>
+      <el-row :gutter="40">
+        <el-col :span="6" v-for="(video, index) in newsList" :key="index">
+          <el-card :body-style="{ padding: '0px' }">
+            <div class="video-img" v-on:click="videoDetail(video)">
+              <img v-bind:src="video.vedioImg"/>
             </div>
-            <img src="images/1.jpg" />
-          </div>
-        </div>
-      </div>
-      <div class="sub-vid">
-        <div class="col-md-3">
-          <div class="zoom-container">
-            <div class="zoom-caption">
-              <span>Video's Tag</span>
-              <a href="single.html">
-                <i class="fa fa-play-circle-o fa-5x" style="color: #fff"></i>
-              </a>
-              <p>Video's Name</p>
+            <div class="introduction">
+              <p class="video-name"><a v-on:click="videoDetail(video)"> {{video.name}} </a></p>
+              <el-tooltip :content="video.introduction" placement="bottom" effect="light">
+                <p class="introduction-content">简介: {{video.introduction}}</p>
+              </el-tooltip>
             </div>
-            <img src="images/2.jpg" />
-          </div>
-          <div class="zoom-container">
-            <div class="zoom-caption">
-              <span>Video's Tag</span>
-              <a href="single.html">
-                <i class="fa fa-play-circle-o fa-5x" style="color: #fff"></i>
-              </a>
-              <p>Video's Name</p>
+            <div class="amount">播放量: {{video.playAmount}} &nbsp评论数: {{video.commentAmount}}</div>
+          </el-card>
+        </el-col>
+      </el-row>
+
+      <el-row>
+        <el-col :span="24"><div class="grid-content bg-purple-dark"><img class="type" src="../assets/1509501686527.gif"/> 音乐 <router-link to="/classify/1"><div class="more-wrapper"> <a class="more">查看更多>></a></div></router-link> </div></el-col>
+      </el-row>
+      <el-row :gutter="40">
+        <el-col :span="6" v-for="(video, index) in musicList" :key="index">
+          <el-card :body-style="{ padding: '0px' }">
+            <div class="video-img" v-on:click="videoDetail(video)">
+              <img v-bind:src="video.vedioImg"/>
             </div>
-            <img src="images/3.jpg" />
-          </div>
-        </div>
-        <div class="col-md-3">
-          <div class="zoom-container">
-            <div class="zoom-caption">
-              <span>Video's Tag</span>
-              <a href="single.html">
-                <i class="fa fa-play-circle-o fa-5x" style="color: #fff"></i>
-              </a>
-              <p>Video's Name</p>
+            <div class="introduction">
+              <p class="video-name"><a v-on:click="videoDetail(video)"> {{video.name}} </a></p>
+              <el-tooltip :content="video.introduction" placement="bottom" effect="light">
+                <p class="introduction-content">简介: {{video.introduction}}</p>
+              </el-tooltip>
             </div>
-            <img src="images/4.jpg" />
-          </div>
-          <div class="zoom-container">
-            <div class="zoom-caption">
-              <span>Video's Tag</span>
-              <a href="single.html">
-                <i class="fa fa-play-circle-o fa-5x" style="color: #fff"></i>
-              </a>
-              <p>Video's Name</p>
-            </div>
-            <img src="images/6.jpg" />
-          </div>
-        </div>
-      </div>
-      <div class="clear"></div>
-    </div>
-
-
-
-
-
-
+            <div class="amount">播放量: {{video.playAmount}} &nbsp评论数: {{video.commentAmount}}</div>
+          </el-card>
+        </el-col>
+      </el-row>
 
 
 
       <el-row>
-        <el-col :span="24"><div class="grid-content bg-purple-dark">新闻</div></el-col>
+        <el-col :span="24"><div class="grid-content bg-purple-dark"> <img class="type" src="../assets/1509501736414.gif"/> 科技 <router-link to="/classify/2"><div class="more-wrapper"> <a class="more">查看更多>></a></div></router-link> </div></el-col>
       </el-row>
-      <el-row :gutter="0">
-        <el-col :span="4"><div class="grid-content bg-purple">1</div></el-col>
-        <el-col :span="4"><div class="grid-content bg-purple-light">2</div></el-col>
-        <el-col :span="4"><div class="grid-content bg-purple">3</div></el-col>
-        <el-col :span="4"><div class="grid-content bg-purple-light">4</div></el-col>
-        <el-col :span="4"><div class="grid-content bg-purple">5</div></el-col>
-        <el-col :span="4"><div class="grid-content bg-purple-light">6</div></el-col>
+      <el-row :gutter="40">
+        <el-col :span="6" v-for="(video, index) in technologyList" :key="index">
+          <el-card :body-style="{ padding: '0px' }">
+            <div class="video-img" v-on:click="videoDetail(video)">
+              <img v-bind:src="video.vedioImg"/>
+            </div>
+            <div class="introduction">
+              <p class="video-name"><a v-on:click="videoDetail(video)"> {{video.name}} </a></p>
+              <el-tooltip :content="video.introduction" placement="bottom" effect="light">
+                <p class="introduction-content">简介: {{video.introduction}}</p>
+              </el-tooltip>
+            </div>
+            <div class="amount">播放量: {{video.playAmount}} &nbsp评论数: {{video.commentAmount}}</div>
+          </el-card>
+        </el-col>
       </el-row>
+
       <el-row>
-        <el-col :span="24"><div class="grid-content bg-purple-dark">音乐</div></el-col>
+        <el-col :span="24"><div class="grid-content bg-purple-dark"><img class="type" src="../assets/life.png"/> 生活 <router-link to="/classify/3"><div class="more-wrapper"> <a class="more">查看更多>></a></div></router-link> </div></el-col>
       </el-row>
-      <el-row :gutter="0">
-        <el-col :span="4"><div class="grid-content bg-purple">1</div></el-col>
-        <el-col :span="4"><div class="grid-content bg-purple-light">2</div></el-col>
-        <el-col :span="4"><div class="grid-content bg-purple">3</div></el-col>
-        <el-col :span="4"><div class="grid-content bg-purple-light">4</div></el-col>
-        <el-col :span="4"><div class="grid-content bg-purple">5</div></el-col>
-        <el-col :span="4"><div class="grid-content bg-purple-light">6</div></el-col>
+      <el-row :gutter="40">
+        <el-col :span="6" v-for="(video, index) in lifeList" :key="index">
+          <el-card :body-style="{ padding: '0px' }">
+            <div class="video-img" v-on:click="videoDetail(video)">
+              <img v-bind:src="video.vedioImg"/>
+            </div>
+            <div class="introduction">
+              <p class="video-name"><a v-on:click="videoDetail(video)"> {{video.name}} </a></p>
+              <el-tooltip :content="video.introduction" placement="bottom" effect="light">
+                <p class="introduction-content">简介: {{video.introduction}}</p>
+              </el-tooltip>
+            </div>
+            <div class="amount">播放量: {{video.playAmount}} &nbsp评论数: {{video.commentAmount}}</div>
+          </el-card>
+        </el-col>
       </el-row>
-    <el-row>
-      <el-col :span="24"><div class="grid-content bg-purple-dark">科技</div></el-col>
-    </el-row>
-    <el-row :gutter="0">
-      <el-col :span="4"><div class="grid-content bg-purple">1</div></el-col>
-      <el-col :span="4"><div class="grid-content bg-purple-light">2</div></el-col>
-      <el-col :span="4"><div class="grid-content bg-purple">3</div></el-col>
-      <el-col :span="4"><div class="grid-content bg-purple-light">4</div></el-col>
-      <el-col :span="4"><div class="grid-content bg-purple">5</div></el-col>
-      <el-col :span="4"><div class="grid-content bg-purple-light">6</div></el-col>
-    </el-row>
-    <el-row>
-      <el-col :span="24"><div class="grid-content bg-purple-dark">生活</div></el-col>
-    </el-row>
-    <el-row :gutter="0">
-      <el-col :span="4"><div class="grid-content bg-purple">1</div></el-col>
-      <el-col :span="4"><div class="grid-content bg-purple-light">2</div></el-col>
-      <el-col :span="4"><div class="grid-content bg-purple">3</div></el-col>
-      <el-col :span="4"><div class="grid-content bg-purple-light">4</div></el-col>
-      <el-col :span="4"><div class="grid-content bg-purple">5</div></el-col>
-      <el-col :span="4"><div class="grid-content bg-purple-light">6</div></el-col>
-    </el-row>
-    <el-row>
-      <el-col :span="24"><div class="grid-content bg-purple-dark">影视</div></el-col>
-    </el-row>
-    <el-row :gutter="0">
-      <el-col :span="4"><div class="grid-content bg-purple">1</div></el-col>
-      <el-col :span="4"><div class="grid-content bg-purple-light">2</div></el-col>
-      <el-col :span="4"><div class="grid-content bg-purple">3</div></el-col>
-      <el-col :span="4"><div class="grid-content bg-purple-light">4</div></el-col>
-      <el-col :span="4"><div class="grid-content bg-purple">5</div></el-col>
-      <el-col :span="4"><div class="grid-content bg-purple-light">6</div></el-col>
-    </el-row>
-    <video src="http://120.79.143.237/video_file/video_977788977459245057_rank_1.mp4" controls="controls">
-    </video>
+
+      <el-row>
+        <el-col :span="24"><div class="grid-content bg-purple-dark"> <img class="type" src="../assets/tv.png"/> 影视 <router-link to="/classify/4"><div class="more-wrapper"> <a class="more">查看更多>></a></div></router-link> </div></el-col>
+      </el-row>
+      <el-row :gutter="40">
+        <el-col :span="6" v-for="(video, index) in tvList" :key="index">
+          <el-card :body-style="{ padding: '0px' }">
+            <div class="video-img" v-on:click="videoDetail(video)">
+              <img v-bind:src="video.vedioImg"/>
+            </div>
+            <div class="introduction">
+              <p class="video-name"><a v-on:click="videoDetail(video)"> {{video.name}} </a></p>
+              <el-tooltip :content="video.introduction" placement="bottom" effect="light">
+                <p class="introduction-content">简介: {{video.introduction}}</p>
+              </el-tooltip>
+            </div>
+            <div class="amount">播放量: {{video.playAmount}} &nbsp评论数: {{video.commentAmount}}</div>
+          </el-card>
+        </el-col>
+      </el-row>
+
+    </el-main>
   </div>
 </template>
 
 <script>
+  import base from '../mixins/base';
 
   export default {
     name: 'home',
+    mixins: [base],
+    created() {
+      // 组件创建完后获取数据，
+      // 此时 data 已经被 observed 了
+      this.getHomePageVideo()
+    },
+    watch: {
+      // 如果路由有变化，会再次执行该方法
+      '$route': 'getHomePageVideo'
+    },
     data () {
       return {
+        loading: true,
+        newsList: [],
+        musicList: [],
+        lifeList: [],
+        technologyList: [],
+        tvList: [],
+
+
+
       }
+    },
+    methods: {
+      getHomePageVideo() {
+        let sel = this;
+        sel.request({act: 'getHomePageVideo', method: 'get'}).then(datas => {
+          if (datas.code == 0) {
+            sel.loading = false;
+            sel.newsList = datas.data.zero;
+            sel.musicList = datas.data.one;
+            sel.lifeList = datas.data.two;
+            sel.technologyList = datas.data.three;
+            sel.tvList = datas.data.four;
+
+//            sel.introductionShort = datas.data.introduction.substr(0,20) + '...' ;
+          } else {
+            sel.$message.error('出错了: ' + datas.msg)
+          }
+        }, response => {
+          sel.loading = false;
+          sel.$meesage.error('出错了');
+        });
+      },
+      videoDetail(video) {
+        this.$router.push({
+          path: '/videoDetail',
+          name: 'videoDetail',
+          params: {
+            videoId: video.id
+          }
+          /*query: {
+              name: 'name',
+              dataObj: this.msg
+          }*/
+        })
+      },
     }
   }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  .el-row {
-    margin-bottom: 20px;
-  }
   .el-col {
-    border-radius: 4px;
-    text-align: center;
-    padding: 3px;
-    /*margin: 4px;*/
+    margin-bottom: 15px;
+  }
+  .video-img {
+    height: 250px;
+    width: 419.75px;
+    padding: 0px;
+    cursor: pointer;
+  }
+  .el-row {
+    margin-bottom: 10px;
+  }
+  .type {
+    width: 30px;
+    height: 30px;
+  }
+  img {
+    width: 100%;
+    height: 100%;
+    border: 1px solid #409EFF;
+    border-radius: 10px;
+
+  }
+
+  .introduction {
+    margin-top: 10px;
+  }
+  .amount {
+    font-size: 13px;
+    margin-bottom: 3px;
+  }
+
+
+  .clearfix:before,
+  .clearfix:after {
+    display: table;
+    content: "";
+  }
+
+  .clearfix:after {
+    clear: both
+  }
+  .introduction-content {
+    margin-top: 3px;
+    margin-bottom: 3px;
+    padding: 0;
+    /*line-height: 0;*/
+    font-size: 14px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .video-name {
+    margin: 0;
+    padding: 0;
+    font-size: 17px;
+  }
+  .video-name:hover {
+    /*margin: 0;*/
+    /*padding: 0;*/
+    /*font-size: 16px;*/
+    text-decoration: underline;
+    cursor: pointer;
+    /*line-height: 1;*/
   }
   .bg-purple-dark {
     background: #99a9bf;
+    text-align: center;
   }
   .bg-purple {
     background: #d3dce6;
@@ -175,5 +262,21 @@
   .row-bg {
     padding: 10px 0;
     background-color: #f9fafc;
+  }
+  .time {
+    font-size: 13px;
+    color: #999;
+  }
+
+  .bottom {
+    margin-top: 13px;
+    line-height: 12px;
+  }
+  .more-wrapper {
+    float:right;
+  }
+  .more:hover {
+    text-decoration: underline;
+    cursor: pointer;
   }
 </style>

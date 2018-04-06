@@ -1,6 +1,6 @@
 import Vue from 'vue'
-import Main from '@/components/Nav'
 import Router from 'vue-router'
+import Nav from '@/components/Nav'
 import Home from '@/components/Home'
 import Login from '@/components/Login'
 import InfoCenter from '@/components/InfoCenter'
@@ -9,8 +9,11 @@ import MyVideo from '@/components/MyVideo'
 import UploadVideo from '@/components/UploadVideo'
 import EditMyInfo from '@/components/EditMyInfo'
 import EditPassword from '@/components/EditPassword'
+import VideoDetail from '@/components/VideoDetail'
+import Classify from '@/components/Classify'
 
-Vue.use(Router)
+
+Vue.use(Router);
 
 export default new Router({
   mode: 'history',
@@ -22,8 +25,7 @@ export default new Router({
     },
     {
       path: '/',
-      name: 'main',
-      component: Main,
+      component: Nav,
       children: [
         {
           path: '/',
@@ -32,12 +34,20 @@ export default new Router({
         },
         {
           path: '/home',
-          name: 'home',
           component: Home
         },
         {
+          path: '/classify/:classId',
+          name: 'classify',
+          component: Classify
+        },
+        {
+          path: '/videoDetail/:videoId',
+          name: 'videoDetail',
+          component: VideoDetail
+        },
+        {
           path: '/infoCenter',
-          name: 'infoCenter',
           component: InfoCenter,
           children: [
             {

@@ -5,19 +5,19 @@
         <el-row :gutter="40">
           <el-col :span="6" v-for="(video, index) in videoList" :key="index">
             <el-card :body-style="{ padding: '20px' }">
-              <div class="video-img">
+              <div class="video-img" v-on:click="videoDetail(video)">
                 <img v-bind:src="video.vedioImg"/>
               </div>
               <div class="introduction">
-                <p>{{video.name}}</p>
+                <p class="video-name"><a v-on:click="videoDetail(video)"> {{video.name}} </a></p>
                 <el-tooltip :content="video.introduction" placement="bottom" effect="light">
                   <p>简介: {{video.introduction}}</p>
                 </el-tooltip>
               </div>
-              <div class="amount">播放量: {{video.playAmount}} 评论数: {{video.commentAmount}}</div>
+              <div class="amount">播放量: {{video.playAmount}} &nbsp评论数: {{video.commentAmount}} &nbsp类别: {{ video.type }}</div>
               <div class="bottom clearfix">
-                <time class="time">{{ currentDate }}</time>
-                <el-dropdown trigger="click" v-on:command="handleCommand">
+                <time class="time">{{ video.createTime }} &nbsp &nbsp</time>
+                <el-dropdown trigger="click">
                   <!--<el-button type="text" class="button">操作按钮</el-button>-->
                   <span class="el-dropdown-link">
                     操作
@@ -25,7 +25,7 @@
                   </span>
                   <el-dropdown-menu slot="dropdown">
                     <el-dropdown-item><a @click="editVideo(video)">修改</a></el-dropdown-item>
-                    <el-dropdown-item command="removeVideo"><a v-on:click="removeVideo(video)">删除</a></el-dropdown-item>
+                    <el-dropdown-item><a v-on:click="removeVideo(video)">删除</a></el-dropdown-item>
                   </el-dropdown-menu>
                 </el-dropdown>
               </div>
@@ -92,11 +92,10 @@
     data() {
       return {
         loading: true,
-        currentDate: new Date(),
         page: {
           total: 0,
           current: 1,
-          size: 10
+          size: 8
         },
         currentVideo: {
           id: '',
@@ -133,11 +132,19 @@
         sel.request({act: 'getMyVideo', method: 'get', body: params}).then(datas => {
           if (datas.code == 0) {
             sel.loading = false;
-            sel.videoList = datas.data.records;
+            sel.videoList = datas.data.page.records;
             sel.page.total = datas.data.total;
-            sel.page.size = datas.data.size;
-            sel.page.current = datas.data.current;
+            sel.page.size = datas.data.page.size;
+            sel.page.current = datas.data.page.current;
 //            sel.introductionShort = datas.data.introduction.substr(0,20) + '...' ;
+            // 转换日期格式
+            for (let i=0;i<sel.videoList.length;i++) {
+              sel.videoList[i].createTime = sel.timeChange(sel.videoList[i].createTime);
+            }
+            // 转换类型格式
+            for (let i=0;i<sel.videoList.length;i++) {
+              sel.videoList[i].type = sel.typeChange(sel.videoList[i].type);
+            }
           } else {
             sel.$message.error('出错了: ' + datas.msg)
           }
@@ -190,14 +197,17 @@
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          this.request({act: 'removeVideo', method: 'post', video}).then(res => {
-            if (res.code == 0){
+          let param = {
+            videoId: video.id
+          };
+          this.request({act: 'removeVideo', method: 'post', body: param}).then(res => {
+            if (res.code == 0) {
               this.$message({message: res.msg, type: 'success'})
             } else {
               this.$message({message: res.msg, type: 'error'})
             }
           }, response => {
-            this.$message({message: res.msg, type: 'error'})
+            this.$message({message: '错误', type: 'error'})
           });
         }).catch(() => {
           this.$message({
@@ -205,6 +215,19 @@
             message: '已取消'
           });
         });
+      },
+      videoDetail(video) {
+        this.$router.push({
+          path: '/videoDetail',
+          name: 'videoDetail',
+          params: {
+            videoId: video.id
+          }
+          /*query: {
+              name: 'name',
+              dataObj: this.msg
+          }*/
+        })
       }
     }
   }
@@ -254,7 +277,7 @@
     height: 180px;
     width: 265px;
     padding: 0px;
-
+    cursor: pointer;
   }
 
   img {
@@ -269,6 +292,9 @@
   }
 
   p {
+    margin: 0;
+    padding: 0;
+    /*line-height: 0;*/
     font-size: 16px;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -279,7 +305,13 @@
     color: #409EFF;
     cursor: pointer;
   }
+
   .amount {
     font-size: 13px;
+  }
+
+  .video-name:hover {
+    text-decoration: underline;
+    cursor: pointer;
   }
 </style>

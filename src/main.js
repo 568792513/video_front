@@ -6,12 +6,18 @@ import router from './router/router'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import VueResource from 'vue-resource'
+import VueVideoPlayer from 'vue-video-player'
+import 'video.js/dist/video-js.css'
 // import Vuex from 'vuex'
 
 Vue.config.productionTip = false;
 Vue.use(ElementUI);
 Vue.use(VueResource);
 // Vue.use(Vuex);
+Vue.use(VueVideoPlayer, /* {
+  options: global default options,
+  events: global videojs events
+} */)
 
 // var state = {
 //   isLogin:0,     //初始时候给一个 isLogin=0 表示用户未登录

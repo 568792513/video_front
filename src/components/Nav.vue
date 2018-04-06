@@ -18,11 +18,11 @@
           <el-menu-item index="/home">首页</el-menu-item>
           <el-submenu index="2">
             <template slot="title">分类</template>
-            <el-menu-item index="2-1">新闻</el-menu-item>
-            <el-menu-item index="2-2">音乐</el-menu-item>
-            <el-menu-item index="2-3">生活</el-menu-item>
-            <el-menu-item index="2-4">科技</el-menu-item>
-            <el-menu-item index="2-5">影视</el-menu-item>
+            <el-menu-item index="/classify/0">新闻</el-menu-item>
+            <el-menu-item index="/classify/1">音乐</el-menu-item>
+            <el-menu-item index="/classify/2">生活</el-menu-item>
+            <el-menu-item index="/classify/3">科技</el-menu-item>
+            <el-menu-item index="/classify/4">影视</el-menu-item>
           </el-submenu>
           <el-menu-item index="/infoCenter" ><a v-on:click="infoCenter">个人中心</a></el-menu-item>
           <!--<el-menu-item index="4">搜索</el-menu-item>-->
@@ -95,8 +95,8 @@
 
 <style scoped="">
   .head-img{
-    /*background: url("../assets/1/20180330140523.jpg");*/
-    background: url("../assets/head_img.jpg");
+    background: url("../assets/1fbf27cf246be57a9a2d51ef3fbaaa78.jpg");
+    /*background: url("../assets/head_img.jpg");*/
     height: 180px;
   }
   .el-footer {
