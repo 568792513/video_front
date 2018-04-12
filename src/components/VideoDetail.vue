@@ -22,15 +22,26 @@
     <div>播放量：{{ video.playAmount }}</div>
     <div>简介：{{ video.introduction}}</div>
     <div>作者信息：</div>
-
+    <comment v-bind:videoId="videoId"></comment>
   </div>
 </template>
 
 <script>
-  import base from '../mixins/base'
+  import base from '../mixins/base';
+  import comment from '../components/Comment.vue';
+  // videojs
+  import videojs from 'video.js';
+  window.videojs = videojs;
+
+  require('videojs-contrib-hls/dist/videojs-contrib-hls.js');
+  // hls plugin for videojs6
+
   export default {
     name: 'videoDetail',
     mixins: [base],
+    components: {
+      comment
+    },
     data() {
       return {
         videoId: 0,
@@ -40,11 +51,13 @@
           width: '900',
           autoplay: false,
           loop: false,
+          preload: 'auto',
           muted: true,
-          language: 'zh',
+//          language: 'zh',
           playbackRates: [0.7, 1.0, 1.5, 2.0],
           sources: [{
-            type: "video/mp4",
+            type: "application/x-mpegURL",
+//            type: "video/mp4",
             // mp4
             src: '',
             // webm

@@ -24,7 +24,7 @@
             <el-menu-item index="/classify/3">科技</el-menu-item>
             <el-menu-item index="/classify/4">影视</el-menu-item>
           </el-submenu>
-          <el-menu-item index="/infoCenter" ><a v-on:click="infoCenter">个人中心</a></el-menu-item>
+          <el-menu-item index="" ><a v-on:click="infoCenter">个人中心</a></el-menu-item>
           <!--<el-menu-item index="4">搜索</el-menu-item>-->
           <div class="login-button-span" v-show="loginButton">
             <router-link to="/login"><el-button type="primary" round size="medium">登录</el-button></router-link>
@@ -69,16 +69,14 @@
       },
       infoCenter() {
         let sel = this;
-        sel.request({act: 'isLogin', method: 'get'}).then(datas =>{
-          if (datas.code == 0){
-            sel.$router.push('/infoCenter')
-          } else {
-            sel.$message({message: '请先登录', type: 'success'});
-            sel.$router.push('/login');
-          }
-        }, response => {
-          sel.$meesage.error('内部错误');
-        })
+        let username = this.getSessionStorage({key: 'name'});
+        let userId = this.getSessionStorage({key: 'id'});
+        if (username == null || userId == null){
+          sel.$router.push('/login');
+          sel.$message({message: '请先登录', type: 'success'});
+        } else {
+          sel.$router.push('/infoCenter')
+        }
       },
       logout() {
         let sel = this;

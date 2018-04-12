@@ -11,6 +11,7 @@ import EditMyInfo from '@/components/EditMyInfo'
 import EditPassword from '@/components/EditPassword'
 import VideoDetail from '@/components/VideoDetail'
 import Classify from '@/components/Classify'
+import Comment from '@/components/Comment'
 
 
 Vue.use(Router);
@@ -45,6 +46,11 @@ export default new Router({
           path: '/videoDetail/:videoId',
           name: 'videoDetail',
           component: VideoDetail
+        },
+        {
+          path: '/Comment',
+          name: 'comment',
+          component: Comment
         },
         {
           path: '/infoCenter',

@@ -8,12 +8,13 @@ import 'element-ui/lib/theme-chalk/index.css'
 import VueResource from 'vue-resource'
 import VueVideoPlayer from 'vue-video-player'
 import 'video.js/dist/video-js.css'
+// import 'videojs-contrib-hls/dist/videojs-contrib-hls'
 // import Vuex from 'vuex'
-
 Vue.config.productionTip = false;
 Vue.use(ElementUI);
 Vue.use(VueResource);
 // Vue.use(Vuex);
+
 Vue.use(VueVideoPlayer, /* {
   options: global default options,
   events: global videojs events

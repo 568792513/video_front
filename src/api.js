@@ -42,6 +42,12 @@ const api=[
   {act:'getHomePageVideo', url:'/zuul/vedio-service/api/web/video/getHomePageVideo'},
 
   // 根据类型获取视频
-  {act:'getVideoByType', url:'/zuul/vedio-service/api/web/video/getVideoByType'}
+  {act:'getVideoByType', url:'/zuul/vedio-service/api/web/video/getVideoByType'},
+
+  // 提交评论
+  {act:'addComment', url:'/zuul/comment-service/api/web/comment/addComment'},
+
+  // 获取评论
+  {act:'getComment', url:'/zuul/comment-service/api/web/comment/getComment'}
 ];
 export default api;

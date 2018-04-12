@@ -11,7 +11,7 @@
       </el-row>
       <el-row :gutter="40">
         <el-col :span="6" v-for="(video, index) in newsList" :key="index">
-          <el-card :body-style="{ padding: '0px' }">
+          <el-card :body-style="{ padding: '0px' }" shadow="hover">
             <div class="video-img" v-on:click="videoDetail(video)">
               <img v-bind:src="video.vedioImg"/>
             </div>
@@ -31,7 +31,7 @@
       </el-row>
       <el-row :gutter="40">
         <el-col :span="6" v-for="(video, index) in musicList" :key="index">
-          <el-card :body-style="{ padding: '0px' }">
+          <el-card :body-style="{ padding: '0px' }" shadow="hover">
             <div class="video-img" v-on:click="videoDetail(video)">
               <img v-bind:src="video.vedioImg"/>
             </div>
@@ -52,8 +52,8 @@
         <el-col :span="24"><div class="grid-content bg-purple-dark"> <img class="type" src="../assets/1509501736414.gif"/> 科技 <router-link to="/classify/2"><div class="more-wrapper"> <a class="more">查看更多>></a></div></router-link> </div></el-col>
       </el-row>
       <el-row :gutter="40">
-        <el-col :span="6" v-for="(video, index) in technologyList" :key="index">
-          <el-card :body-style="{ padding: '0px' }">
+        <el-col :span="6" v-for="(video, index) in technologyList" :key="index" >
+          <el-card :body-style="{ padding: '0px' }" shadow="hover">
             <div class="video-img" v-on:click="videoDetail(video)">
               <img v-bind:src="video.vedioImg"/>
             </div>
@@ -73,7 +73,7 @@
       </el-row>
       <el-row :gutter="40">
         <el-col :span="6" v-for="(video, index) in lifeList" :key="index">
-          <el-card :body-style="{ padding: '0px' }">
+          <el-card :body-style="{ padding: '0px' }" shadow="hover">
             <div class="video-img" v-on:click="videoDetail(video)">
               <img v-bind:src="video.vedioImg"/>
             </div>
@@ -93,7 +93,7 @@
       </el-row>
       <el-row :gutter="40">
         <el-col :span="6" v-for="(video, index) in tvList" :key="index">
-          <el-card :body-style="{ padding: '0px' }">
+          <el-card :body-style="{ padding: '0px' }" shadow="hover">
             <div class="video-img" v-on:click="videoDetail(video)">
               <img v-bind:src="video.vedioImg"/>
             </div>
@@ -135,9 +135,6 @@
         lifeList: [],
         technologyList: [],
         tvList: [],
-
-
-
       }
     },
     methods: {
@@ -185,7 +182,7 @@
   }
   .video-img {
     height: 250px;
-    width: 419.75px;
+    width: 418px;
     padding: 0px;
     cursor: pointer;
   }
