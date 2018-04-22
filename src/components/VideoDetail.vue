@@ -19,9 +19,10 @@
                     @statechanged="playerStateChanged($event)">
       </video-player>
     </div>
-    <div>播放量：{{ video.playAmount }}</div>
-    <div>简介：{{ video.introduction}}</div>
-    <div>作者信息：</div>
+    <div class="video-info">
+      <div>播放量：{{ video.playAmount }}</div>
+      <div>简介：{{ video.introduction}}</div>
+    </div>
     <comment v-bind:videoId="videoId"></comment>
   </div>
 </template>
@@ -56,8 +57,9 @@
 //          language: 'zh',
           playbackRates: [0.7, 1.0, 1.5, 2.0],
           sources: [{
-            type: "application/x-mpegURL",
-//            type: "video/mp4",
+//            type: '',
+//            type: "application/x-mpegURL",
+            type: '',
             // mp4
             src: '',
             // webm
@@ -93,6 +95,7 @@
           if (res.code == 0) {
             this.video = res.data;
             this.playerOptions.sources[0].src = this.video.vedioUrl;
+            this.playerOptions.sources[0].type = this.video.format;
             this.playerOptions.poster = this.video.vedioImg
           } else {
             this.$message({message: res.msg, type: 'error'})
@@ -153,5 +156,8 @@
     display: flex;
     justify-content: center; /* 让子元素水平居中 */
     /*align-items: center; !* 让子元素垂直居中 *!*/
+  }
+  .video-info {
+    margin: 30px;
   }
 </style>

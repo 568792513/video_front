@@ -48,6 +48,11 @@ const api=[
   {act:'addComment', url:'/zuul/comment-service/api/web/comment/addComment'},
 
   // 获取评论
-  {act:'getComment', url:'/zuul/comment-service/api/web/comment/getComment'}
+  {act:'getComment', url:'/zuul/comment-service/api/web/comment/getComment'},
+
+  // 获取首页跑马灯信息
+  {act:'getHomeMarquee', url:'/zuul/vedio-service/api/web/video/getHomeMarquee'}
+
+
 ];
 export default api;

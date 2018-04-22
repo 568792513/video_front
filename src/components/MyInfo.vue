@@ -3,6 +3,7 @@
     <div class="baseInfo">
       <h4>Welcome, {{user.name}}!</h4>
     </div>
+    <img src="http://127.0.0.1:8081/images/logo.png"/>
   </div>
 </template>
 <script>

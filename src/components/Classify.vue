@@ -27,8 +27,6 @@
         </el-menu>
       </el-aside>
 
-
-
       <el-container>
         <el-header>
           {{ activeIndex }}
@@ -67,7 +65,6 @@
         </el-footer>
       </el-container>
     </el-container>
-
 
   </div>
 </template>
@@ -190,7 +187,6 @@
     margin-bottom: 3px;
   }
 
-
   .clearfix:before,
   .clearfix:after {
     display: table;
@@ -213,7 +209,10 @@
   .video-name {
     margin: 0;
     padding: 0;
-    font-size: 17px;
+    font-size: 16px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
   .video-name:hover {
     /*margin: 0;*/

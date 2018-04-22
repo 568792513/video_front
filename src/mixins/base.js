@@ -31,7 +31,7 @@ export default {
         url: '',
         body: {},
         headers: {"Authorization": uid},
-        timeout: 20000,
+        timeout: 999999999,
         emulateJSON: true
       };
       const option = Object.assign(defaultOption, opt);

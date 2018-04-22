@@ -5,8 +5,17 @@
     <!--<el-row>-->
       <!--<el-col :span="24"><div class="grid-content bg-purple-dark">推荐</div></el-col>-->
     <!--</el-row>-->
+      <el-carousel :interval="5000" type="card" height="300px" >
+        <el-carousel-item v-for="(video, index) in marqueeList" :key="index">
+          <div class="marquee-item" v-on:click="videoDetail(video)">
+            <img v-bind:src="video.vedioImg"/>
+            <div class="marquee-item-name"> {{ video.name }}</div>
+          </div>
+        </el-carousel-item>
+      </el-carousel>
 
-      <el-row>
+
+      <el-row class="title">
         <el-col :span="24"><div class="grid-content bg-purple-dark"> <img class="type" src="../assets/news.png"/> 新闻 <router-link to="/classify/0"><div class="more-wrapper"> <a class="more">查看更多>></a></div></router-link> </div></el-col>
       </el-row>
       <el-row :gutter="40">
@@ -26,7 +35,7 @@
         </el-col>
       </el-row>
 
-      <el-row>
+      <el-row class="title">
         <el-col :span="24"><div class="grid-content bg-purple-dark"><img class="type" src="../assets/1509501686527.gif"/> 音乐 <router-link to="/classify/1"><div class="more-wrapper"> <a class="more">查看更多>></a></div></router-link> </div></el-col>
       </el-row>
       <el-row :gutter="40">
@@ -48,7 +57,7 @@
 
 
 
-      <el-row>
+      <el-row class="title">
         <el-col :span="24"><div class="grid-content bg-purple-dark"> <img class="type" src="../assets/1509501736414.gif"/> 科技 <router-link to="/classify/2"><div class="more-wrapper"> <a class="more">查看更多>></a></div></router-link> </div></el-col>
       </el-row>
       <el-row :gutter="40">
@@ -68,7 +77,7 @@
         </el-col>
       </el-row>
 
-      <el-row>
+      <el-row class="title">
         <el-col :span="24"><div class="grid-content bg-purple-dark"><img class="type" src="../assets/life.png"/> 生活 <router-link to="/classify/3"><div class="more-wrapper"> <a class="more">查看更多>></a></div></router-link> </div></el-col>
       </el-row>
       <el-row :gutter="40">
@@ -88,7 +97,7 @@
         </el-col>
       </el-row>
 
-      <el-row>
+      <el-row class="title">
         <el-col :span="24"><div class="grid-content bg-purple-dark"> <img class="type" src="../assets/tv.png"/> 影视 <router-link to="/classify/4"><div class="more-wrapper"> <a class="more">查看更多>></a></div></router-link> </div></el-col>
       </el-row>
       <el-row :gutter="40">
@@ -135,10 +144,12 @@
         lifeList: [],
         technologyList: [],
         tvList: [],
+        marqueeList: [],
       }
     },
     methods: {
       getHomePageVideo() {
+        this.getHomeMarquee();
         let sel = this;
         sel.request({act: 'getHomePageVideo', method: 'get'}).then(datas => {
           if (datas.code == 0) {
@@ -149,6 +160,20 @@
             sel.technologyList = datas.data.three;
             sel.tvList = datas.data.four;
 
+//            sel.introductionShort = datas.data.introduction.substr(0,20) + '...' ;
+          } else {
+            sel.$message.error('出错了: ' + datas.msg)
+          }
+        }, response => {
+          sel.loading = false;
+          sel.$meesage.error('出错了');
+        });
+      },
+      getHomeMarquee() {
+        let sel = this;
+        sel.request({act: 'getHomeMarquee', method: 'get'}).then(datas => {
+          if (datas.code == 0) {
+            sel.marqueeList = datas.data.marquee;
 //            sel.introductionShort = datas.data.introduction.substr(0,20) + '...' ;
           } else {
             sel.$message.error('出错了: ' + datas.msg)
@@ -189,6 +214,10 @@
   .el-row {
     margin-bottom: 10px;
   }
+  .title {
+    border-bottom: 1px solid #cccccc;
+  }
+
   .type {
     width: 30px;
     height: 30px;
@@ -196,9 +225,8 @@
   img {
     width: 100%;
     height: 100%;
-    border: 1px solid #409EFF;
+    border: 1px solid white;
     border-radius: 10px;
-
   }
 
   .introduction {
@@ -233,6 +261,9 @@
     margin: 0;
     padding: 0;
     font-size: 17px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
   .video-name:hover {
     /*margin: 0;*/
@@ -243,8 +274,9 @@
     /*line-height: 1;*/
   }
   .bg-purple-dark {
-    background: #99a9bf;
-    text-align: center;
+    /*background: #99a9bf;*/
+    text-align: left;
+    font-size: 20px;
   }
   .bg-purple {
     background: #d3dce6;
@@ -275,5 +307,32 @@
   .more:hover {
     text-decoration: underline;
     cursor: pointer;
+  }
+
+  .el-carousel {
+    float: left;
+    width: 1400px;
+    margin-left: 250px;
+
+  }
+  .marquee-item {
+    width: 600px;
+    height: 280px;
+    text-align: center;
+    position:relative;
+  }
+  .marquee-item-name {
+    color: white;
+    height: 30px;
+    position: absolute;
+    bottom: 0;
+    margin: auto;
+    top: 230px;
+    left: 0;
+    right: 0;
+  }
+
+  .rank {
+    float: right;
   }
 </style>

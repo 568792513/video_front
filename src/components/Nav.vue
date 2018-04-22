@@ -38,7 +38,9 @@
       <el-main>
         <router-view></router-view>
       </el-main>
-      <el-footer>Footer</el-footer>
+      <el-footer>
+        <p>Copyright &copy; 2018. by hui   <a href="https://github.com/568792513" target="_blank" title="github">568792513</a></p>
+      </el-footer>
     </el-container>
   </div>
 </template>
@@ -93,12 +95,12 @@
 
 <style scoped="">
   .head-img{
-    background: url("../assets/1fbf27cf246be57a9a2d51ef3fbaaa78.jpg");
-    /*background: url("../assets/head_img.jpg");*/
+    /*background: url("../assets/1fbf27cf246be57a9a2d51ef3fbaaa78.jpg");*/
+    background: url("../assets/head_img.jpg");
     height: 180px;
   }
   .el-footer {
-    background-color: #B3C0D1;
+    background-color: #409EFF;
     color: #333;
     text-align: center;
   }

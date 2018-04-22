@@ -128,6 +128,8 @@
                 sel.schedule = 100;
                 sel.status = 'success';
                 sel.$message({message: datas.msg, type: 'success'});
+                sel.progressShow = false;
+
               } else {
                 sel.loading = false;
                 sel.progressShow = false;
