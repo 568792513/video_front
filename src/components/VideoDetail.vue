@@ -23,6 +23,14 @@
       <div>播放量：{{ video.playAmount }}</div>
       <div>简介：{{ video.introduction}}</div>
     </div>
+    <div class="author-info">
+      <div>作者信息：</div>
+      <p></p>
+      <div class="head-img">
+        <img v-bind:src="author.headImg"/>
+      </div>
+      <div class="author-name">{{ author.name }} , 发布于 {{video.createTime}}</div>
+    </div>
     <comment v-bind:videoId="videoId"></comment>
   </div>
 </template>
@@ -66,7 +74,8 @@
             // src: "https://cdn.theguardian.tv/webM/2015/07/20/150716YesMen_synd_768k_vp8.webm"
           }],
           poster: '',
-        }
+        },
+        author: {},
       }
     },
     computed: {
@@ -77,16 +86,19 @@
     created() {
       // 取到路由带过来的参数
       this.videoId = this.$route.params.videoId;
-      console.log(this.videoId);
       // 组件创建完后获取数据，
       // 此时 data 已经被 observed 了
-      this.getVideoById()
+      this.getData();
     },
     watch: {
       // 监测路由变化,只要变化了就调用获取路由参数方法将数据存储本组件即可
-      '$route': 'getParams'
+      '$route': 'getData'
     },
     methods: {
+       getData() {
+        this.getVideoById();
+        this.getUserByVideoId();
+      },
       getVideoById() {
         let param = {
           videoId: this.videoId
@@ -96,7 +108,23 @@
             this.video = res.data;
             this.playerOptions.sources[0].src = this.video.vedioUrl;
             this.playerOptions.sources[0].type = this.video.format;
-            this.playerOptions.poster = this.video.vedioImg
+            this.playerOptions.poster = this.video.vedioImg;
+            // 转换日期格式
+            this.video.createTime = this.timeChange(this.video.createTime);
+          } else {
+            this.$message({message: res.msg, type: 'error'})
+          }
+        }, response => {
+          this.$message({message: '错误', type: 'error'})
+        });
+      },
+      getUserByVideoId() {
+        let param = {
+          videoId: this.videoId
+        };
+        this.request({act: 'getUserByVideoId', method: 'post', body: param}).then(res => {
+          if (res.code == 0) {
+            this.author = res.data;
           } else {
             this.$message({message: res.msg, type: 'error'})
           }
@@ -159,5 +187,27 @@
   }
   .video-info {
     margin: 30px;
+  }
+  .author-info{
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    justify-content: center; /* 让子元素水平居中 */
+    /*align-items: center; !* 让子元素垂直居中 *!*/
+    width: 1260px;
+  }
+  .head-img {
+    margin-right: 20px;
+    width: 100px;
+    height: 100px;
+  }
+  img {
+    width: 100%;
+    height: 100%;
+    border: 2px solid #409EFF;
+  }
+  .author-name {
+    margin-left: 5px;
+
   }
 </style>

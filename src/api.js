@@ -51,7 +51,10 @@ const api=[
   {act:'getComment', url:'/zuul/comment-service/api/web/comment/getComment'},
 
   // 获取首页跑马灯信息
-  {act:'getHomeMarquee', url:'/zuul/vedio-service/api/web/video/getHomeMarquee'}
+  {act:'getHomeMarquee', url:'/zuul/vedio-service/api/web/video/getHomeMarquee'},
+
+  // 通过视频ID获取用户
+  {act:'getUserByVideoId', url:'/zuul/vedio-service/api/web/video/getUserByVideoId'},
 
 
 ];
